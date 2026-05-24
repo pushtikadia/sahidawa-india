@@ -37,7 +37,7 @@ import {
     extractExpiryDate,
     extractBatchNumber,
     extractMedicineName,
-} from "@/src/utils/medicineParser";
+} from "@/utils/medicineParser";
 
 function formatExpiryForBadge(isoDate: string | null | undefined): string | undefined {
     if (!isoDate) return undefined;
