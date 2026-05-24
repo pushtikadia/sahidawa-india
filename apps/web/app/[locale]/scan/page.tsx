@@ -37,7 +37,7 @@ import {
     extractExpiryDate,
     extractBatchNumber,
     extractMedicineName,
-} from "@/utils/medicineParser";
+} from "@/src/utils/medicineParser";
 
 function formatExpiryForBadge(isoDate: string | null | undefined): string | undefined {
     if (!isoDate) return undefined;
@@ -91,13 +91,7 @@ function formatMedicineDetails(medicine: VerifiedMedicine) {
     ].join("\n");
 }
 
-function LoadingSkeleton({
-    ocrStatus,
-    ocrProgress,
-}: {
-    ocrStatus: string;
-    ocrProgress: number;
-}) {
+function LoadingSkeleton({ ocrStatus, ocrProgress }: { ocrStatus: string; ocrProgress: number }) {
     let message = "Verifying with CDSCO Database...";
     if (ocrStatus === "scanning-barcode") {
         message = "Scanning barcode...";
@@ -108,7 +102,7 @@ function LoadingSkeleton({
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6 backdrop-blur-md">
             <div className="relative w-full max-w-sm overflow-hidden rounded-[2.5rem] bg-white p-8 text-slate-900 shadow-2xl">
-                <Skeleton className="absolute top-0 right-0 left-0 h-2 bg-emerald-500 rounded-none" />
+                <Skeleton className="absolute top-0 right-0 left-0 h-2 rounded-none bg-emerald-500" />
                 <div className="flex flex-col items-center space-y-4 text-center">
                     <Skeleton className="flex h-20 w-20 items-center justify-center rounded-full bg-slate-100">
                         <ShieldCheck size={40} className="text-slate-200" />
@@ -448,7 +442,9 @@ export default function ScanPage() {
     const [parsedBatch, setParsedBatch] = useState<string>("");
     const [parsedExpiry, setParsedExpiry] = useState<string>("");
     const [isCameraActive, setIsCameraActive] = useState(false);
-    const [ocrStatus, setOcrStatus] = useState<"idle" | "scanning-barcode" | "extracting-text" | "done" | "error">("idle");
+    const [ocrStatus, setOcrStatus] = useState<
+        "idle" | "scanning-barcode" | "extracting-text" | "done" | "error"
+    >("idle");
     const [ocrProgress, setOcrProgress] = useState(0);
 
     const ocrWorkerRef = useRef<Tesseract.Worker | null>(null);
@@ -616,7 +612,9 @@ export default function ScanPage() {
             const rawText = data.text;
             if (!rawText || !rawText.trim()) {
                 toast.warning("No clear text found in image.");
-                setVerifyError("Failed to read medicine text. Please ensure the image is clear or upload another one.");
+                setVerifyError(
+                    "Failed to read medicine text. Please ensure the image is clear or upload another one."
+                );
                 setOcrStatus("error");
                 setShowResult(true);
                 setIsScanning(false);
@@ -699,10 +697,14 @@ export default function ScanPage() {
             const errorMsg = err instanceof Error ? err.message : String(err);
             if (errorMsg === "OCR timed out") {
                 toast.error("OCR timed out. Please try again with a clearer image.");
-                setVerifyError("The scan took too long. Please ensure the image is clear and try again.");
+                setVerifyError(
+                    "The scan took too long. Please ensure the image is clear and try again."
+                );
             } else {
                 toast.error("Failed to extract text from image.");
-                setVerifyError("Unable to read text from this image. Please try a clearer photo or enter the batch number manually.");
+                setVerifyError(
+                    "Unable to read text from this image. Please try a clearer photo or enter the batch number manually."
+                );
             }
             setOcrStatus("error");
         } finally {
@@ -920,13 +922,16 @@ export default function ScanPage() {
             )}
 
             <div className="flex flex-col items-center gap-6 bg-linear-to-t from-black to-transparent p-8">
-                <form onSubmit={handleBatchSubmit} className="flex w-full max-w-sm flex-col gap-3 sm:flex-row">
+                <form
+                    onSubmit={handleBatchSubmit}
+                    className="flex w-full max-w-sm flex-col gap-3 sm:flex-row"
+                >
                     <input
                         type="text"
                         value={batchInput}
                         onChange={(e) => setBatchInput(e.target.value)}
                         placeholder="Enter batch number"
-                        className="flex-1 text-center rounded-full border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white placeholder-white/40 focus:border-transparent focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                        className="flex-1 rounded-full border border-white/20 bg-white/10 px-4 py-3 text-center text-sm font-medium text-white placeholder-white/40 focus:border-transparent focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                     <button
                         type="submit"
