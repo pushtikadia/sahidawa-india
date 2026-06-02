@@ -343,6 +343,8 @@ router.post("/extract", (req: Request, res: Response) => {
 
                     if (dbError) {
                         logger.error(`Database error fetching medicines: ${dbError.message}`);
+                        res.status(500).json({ error: "Database error fetching medicines" });
+                        return;
                     } else if (dbMedicines) {
                         brandNames = Array.from(
                             new Set(
@@ -358,6 +360,8 @@ router.post("/extract", (req: Request, res: Response) => {
                 }
             } catch (dbErr) {
                 logger.error(`Failed to fetch brand/generic names from DB: ${dbErr}`);
+                res.status(500).json({ error: "Database error fetching medicines" });
+                return;
             }
 
             // No hardcoded fallback — if DB has no match, we return unmatched result.
@@ -469,6 +473,8 @@ router.post("/extract", (req: Request, res: Response) => {
                         logger.error(
                             `Database lookup error for match ${matchedName}: ${lookupError.message}`
                         );
+                        res.status(500).json({ error: "Database lookup error for matched medicine" });
+                        return;
                     } else {
                         medicineData = dbMed;
                     }
@@ -489,6 +495,8 @@ router.post("/extract", (req: Request, res: Response) => {
                     logger.error(
                         `Failed to lookup matched name ${matchedName} in database: ${lookupErr}`
                     );
+                    res.status(500).json({ error: "Database lookup error for matched medicine" });
+                    return;
                 }
             }
 
