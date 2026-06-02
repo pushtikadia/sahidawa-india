@@ -77,7 +77,6 @@ export default async function LocaleLayout({
                     }}
                 />
             </head>
-            {/* REPLACE YOUR OLD BODY TAG WITH THIS ONE: */}
             <body className="flex min-h-screen flex-col bg-(--color-surface-page) text-(--color-text-primary) transition-colors duration-300">
                 <ServiceWorkerProvider>
                     <ThemeProvider>
