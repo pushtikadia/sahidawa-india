@@ -265,12 +265,13 @@ def generate_post_with_gemini(pr: dict, tier_display: str, tier_desc: str) -> st
         f"### Technical Context (Use this to explain their impact) ###\n"
         f"{pr['diff'][:15000] if pr.get('diff') else 'No diff provided.'}\n\n"
         f"CRITICAL REQUIREMENTS:\n"
-        f"1. Start by directly thanking the contributor and including their LinkedIn profile link: {pr['linkedin_url']} in a warm, personal way.\n"
+        f"1. Start by directly thanking the contributor (refer to them by their GitHub username @{pr['author']}) in a warm, personal way. Do NOT include their LinkedIn profile link in the very first sentence or at the top of the post.\n"
         f"2. Look at the Technical Context (the code diff) and briefly summarize the technical impact they made (e.g. 'They optimized the notification module'). Make them feel proud of the exact files/logic they improved.\n"
         f"3. Make them feel truly valued. Tell them their hard work is making a real difference in this {tier_display} task. Motivate them to keep solving issues.\n"
-        f"4. End by warmly welcoming new developers to join the journey (GSSoC2026), with the repo link: {PROJECT_GITHUB_URL}\n"
-        f"5. Keep the text short and easy to read. Do NOT use heavy bullet points, bolding, or too many emojis.\n"
-        f"6. Do NOT include hashtags at the end (they are added automatically later)."
+        f"4. Include their LinkedIn profile link near the bottom of the post in a line like: 'Connect with the contributor: {pr['linkedin_url']}'\n"
+        f"5. End by warmly welcoming new developers to join the journey (GSSoC2026), with the repo link: {PROJECT_GITHUB_URL}\n"
+        f"6. Keep the text short and easy to read. Do NOT use heavy bullet points, bolding, or too many emojis.\n"
+        f"7. Do NOT include hashtags at the end (they are added automatically later)."
     )
 
     url = (
@@ -342,30 +343,33 @@ def _static_fallback(pr: dict, tier_display: str) -> str:
     templates = [
         # Template 1: Focus on impact
         (
-            "A huge shoutout to {author} ({linkedin_url}) for landing an outstanding {tier_display} contribution! 🚀\n\n"
+            "A huge shoutout to @{author} for landing an outstanding {tier_display} contribution! 🚀\n\n"
             "They just merged PR #{number}: \"{title}\". This optimization/feature represents significant engineering effort "
             "and makes a direct impact on {project_name}'s mission to build India's open-source medicine safety platform. "
             "We are incredibly grateful for your time, skill, and dedication to the community. Keep up the amazing work!\n\n"
+            "Connect with the contributor: {linkedin_url}\n\n"
             "If you're inspired and want to build for India's digital health infrastructure, join us in GSSoC 2026! 🇮🇳\n\n"
             "Explore the repository: {github_url}\n"
             "View the contribution: {pr_url}"
         ),
         # Template 2: Heartfelt thank you
         (
-            "Huge congratulations and thanks to {author} ({linkedin_url})! 🎉\n\n"
+            "Huge congratulations and thanks to @{author}! 🎉\n\n"
             "Their merged PR #{number} (\"{title}\") is a major addition to {project_name}. "
             "Designing and scaling {tier_desc} tasks takes true developer craftsmanship, and {author}'s work is a stellar example. "
             "Thank you for helping us make medicine safety accessible to 1.4 billion Indians. We are thrilled to have you in our contributor community!\n\n"
+            "Connect with the contributor: {linkedin_url}\n\n"
             "Ready to make a difference? GSSoC 2026 contributors are actively scaling {project_name}. Jump in now!\n\n"
             "GitHub Repository: {github_url}\n"
             "Check out the PR: {pr_url}"
         ),
         # Template 3: Direct community welcome
         (
-            "Let's celebrate another landmark contribution by {author} ({linkedin_url})! 🌟\n\n"
+            "Let's celebrate another landmark contribution by @{author}! 🌟\n\n"
             "With PR #{number} (\"{title}\"), they tackled a {tier_display} task with exceptional skill. "
             "Every line of code merged brings {project_name} closer to securing medicine health tracking for everyone. "
-            "Your hard work is deeply appreciated by the core maintainers. Keep shining and coding, @{author}!\n\n"
+            "Your hard work is deeply appreciated by the core maintainers. Keep shining and coding!\n\n"
+            "Connect with the contributor: {linkedin_url}\n\n"
             "Want to contribute to India's open-source stack? Join the GSSoC 2026 wave on our repo:\n\n"
             "Codebase: {github_url}\n"
             "Merged PR: {pr_url}"
