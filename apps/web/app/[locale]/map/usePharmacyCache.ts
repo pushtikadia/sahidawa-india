@@ -13,7 +13,8 @@ interface CacheEntry {
 }
 
 function isFresh(entry: CacheEntry | undefined): entry is CacheEntry {
-    return Boolean(entry) && Date.now() - entry.timestamp <= TTL_MS;
+    if (!entry) return false;
+    return Date.now() - entry.timestamp <= TTL_MS;
 }
 
 async function getDB() {
