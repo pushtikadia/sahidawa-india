@@ -14,11 +14,11 @@ import { expiryToIso } from "@/lib/medicineDateUtils";
 
 type UseMedicineImageUploadProps = {
     handleVerify: (batch: string) => Promise<void>;
-    processVerificationResult: (...args: any[]) => Promise<void>;
+    processVerificationResult: (result: VerifyResult, fallbackBrandName?: string) => Promise<void>;
     setVerifyError: (error: string | null) => void;
     setShowResult: (show: boolean) => void;
     setBatchInput: (batch: string) => void;
-    setVerifyResult: (result: any) => void;
+    setVerifyResult: (result: VerifyResult | null) => void;
     setIsScanning: (scanning: boolean) => void;
 };
 
