@@ -19,11 +19,6 @@ function getExpiryStatus(expiryDate: string | null): "green" | "yellow" | "red" 
     if (diffMonths <= 6) return "yellow";
     return "green";
 }
-function getBatchStatus(recallStatus: string | null | undefined): "safe" | "recalled" | "unknown" {
-    if (!recallStatus || recallStatus === "none") return "safe";
-    if (recallStatus === "recalled") return "recalled";
-    return "unknown";
-}
 
 // Shared batch number validation — alphanumeric only, prevents wildcard injection
 const BATCH_NUMBER_SCHEMA = z
@@ -158,6 +153,7 @@ router.get("/:batchNumber", batchLimiter, async (req: Request, res: Response) =>
                 });
                 return;
             }
+
             // Fetch manufacturer if linked — single query
             let manufacturerData = null;
             if (medicineData.manufacturer_id) {
@@ -172,7 +168,6 @@ router.get("/:batchNumber", batchLimiter, async (req: Request, res: Response) =>
             res.status(200).json({
                 found: true,
                 source: "medicines",
-                batch_status: getBatchStatus("none"),
                 batch: {
                     batch_number: medicineData.batch_number,
                     manufacturing_date: medicineData.manufacturing_date ?? null,
@@ -231,7 +226,6 @@ router.get("/:batchNumber", batchLimiter, async (req: Request, res: Response) =>
         res.status(200).json({
             found: true,
             source: "batches",
-            batch_status: getBatchStatus(batchData.recall_status),
             batch: {
                 batch_number: batchData.batch_number,
                 manufacturing_date: batchData.manufacturing_date,
