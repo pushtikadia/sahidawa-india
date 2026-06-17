@@ -363,6 +363,15 @@ router.post("/report", batchLimiter, async (req: Request, res: Response) => {
     const validation = await validateReport(reportPayload, hashedIp, null);
 
     if (!validation.passed) {
+        logger.warn({
+            message: "Batch report rejected by abuse safeguards",
+            risk_score: validation.riskScore,
+            reasons: validation.reasons,
+            ip_address: hashedIp ?? "unknown",
+            batch_number: batchNumber,
+            duplicate_group_id: validation.duplicateGroupId ?? null,
+            route: "/api/verify/batch/report",
+        });
         res.status(429).json({
             error: "Report rejected due to abuse safeguards.",
             reasons: validation.reasons,
