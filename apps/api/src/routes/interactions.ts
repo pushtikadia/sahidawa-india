@@ -352,7 +352,7 @@ async function resolveToGeneric(input: string): Promise<{ input: string; generic
             } else if (data && data.generic_name) {
                 genericName = data.generic_name;
             }
-        } catch (dbErr: unkonwn) {
+        } catch (dbErr: unknown) {
             dbFailed = true;
             const msg = dbErr instanceof Error ? dbErr.message : String(dbErr);
             if (
