@@ -6,7 +6,7 @@
  * Tech: React Hook Form · Zod · @hookform/resolvers · Framer Motion · Tailwind CSS
  * Design: SahiDawa modern aesthetic — emerald accents, deep navy header, rounded corners
  */
-
+import { handleApiError } from "@/lib/apiErrorHandler";
 import React, { useState, useEffect, useId } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
@@ -32,7 +32,6 @@ import {
     queueReport,
     getPendingCount,
 } from "@/lib/offlineStorage";
-import { initBackgroundSync } from "@/lib/backgroundSync";
 
 // ─── Cloudinary env ────────────────────────────────────────────────────────────
 // Uploads are now securely routed through our backend API (/api/upload),
@@ -875,16 +874,16 @@ export default function ReportWizard() {
         if (medicineId) setValue("medicineId", medicineId);
     }, [searchParams, setValue]);
 
-    // Background sync of queued offline reports
+    // Initialize pending count and listen for global sync events
     useEffect(() => {
-        const cleanup = initBackgroundSync((count) => {
-            toast.success(
-                `${count} pending report${count > 1 ? "s" : ""} submitted now that you're back online.`
-            );
-            setPendingCount((c) => Math.max(0, c - count));
-        });
         void getPendingCount().then(setPendingCount);
-        return cleanup;
+
+        const handleSynced = (e: Event) => {
+            const count = (e as CustomEvent).detail?.count || 0;
+            setPendingCount((c) => Math.max(0, c - count));
+        };
+        window.addEventListener("reports-synced", handleSynced);
+        return () => window.removeEventListener("reports-synced", handleSynced);
     }, []);
 
     // Autosave draft as the user fills the form (skip until initial restore is done)
@@ -944,7 +943,8 @@ export default function ReportWizard() {
                 setSubmitErr(
                     "You're offline and the report could not be saved locally. Please try again."
                 );
-                toast.error("Failed to save report locally.");
+
+                await handleApiError(queueErr, "Failed to save report locally.");
             } finally {
                 setSubmitting(false);
             }

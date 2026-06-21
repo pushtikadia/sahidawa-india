@@ -29,6 +29,9 @@
         "alerts_empty_title": "सब ठीक है!",
         "alerts_empty_description": "अभी कोई सक्रिय नियामक अलर्ट नहीं है। सुरक्षित रहें और अपनी दवाएं सत्यापित करें।",
         "view_full_alert_log": "पूरा अलर्ट लॉग देखें",
+        "vaccine_title": "वैक्सीन हब और टीकाकरण ट्रैकर",
+        "vaccine_subtitle": "बेहतर जन-स्वास्थ्य जागरूकता के लिए वैक्सीन शेड्यूल, सुरक्षा संबंधी जानकारी और टीकाकरण के बाद की देखभाल के बारे में जानें।",
+        "vaccine_open": "ओपन वैक्सीन हब",
         "heroTitle": {
             "prefix": "आपका स्वास्थ्य, ",
             "highlight": "सत्यापित और सुरक्षित।"
@@ -496,7 +499,15 @@
         "importError": "अमान्य बैकअप फ़ाइल। कृपया एक वैध JSON बैकअप अपलोड करें।",
         "statusExpired": "समाप्त",
         "statusExpiringSoon": "जल्द समाप्त होगी ({days} दिन)",
-        "statusSafe": "सुरक्षित"
+        "statusSafe": "सुरक्षित",
+        "exportCSV": "CSV निर्यात करें",
+        "exportPDF": "PDF निर्यात करें",
+        "print": "प्रिंट करें",
+        "csvExportSuccess": "CSV सफलतापूर्वक निर्यात किया गया",
+        "pdfExportSuccess": "PDF सफलतापूर्वक निर्यात किया गया",
+        "noMedicinesToDisplay": "प्रदर्शित करने के लिए कोई दवा नहीं है",
+        "generatedOn": "अप फ़ाइल। कृपया एक वैध ",
+        "deleteMedicine": "दवा हटाएं"
     },
     "Login": {
         "brandSubtitle": "दवा सुरक्षा मंच",
@@ -679,37 +690,88 @@
         "nav_schedule": "दवा शेड्यूल",
         "nav_profile": "My Profile"
     },
-  "medicineSafety": {
-    "guideTitle": "उपयोग और सुरक्षा मार्गदर्शिका",
-    "noDosageInfo": "इस आयु वर्ग के लिए खुराक की जानकारी उपलब्ध नहीं है।",
-    "closeButton": "सुरक्षा जानकारी बंद करें",
-    "tabs": {
-      "sideEffects": "दुष्प्रभाव",
-      "dosage": "खुराक",
-      "dietaryIntake": "आहार"
+    "medicineSafety": {
+        "guideTitle": "उपयोग और सुरक्षा मार्गदर्शिका",
+        "noDosageInfo": "इस आयु वर्ग के लिए खुराक की जानकारी उपलब्ध नहीं है।",
+        "closeButton": "सुरक्षा जानकारी बंद करें",
+        "tabs": {
+            "sideEffects": "दुष्प्रभाव",
+            "dosage": "खुराक",
+            "dietaryIntake": "आहार"
+        },
+        "sideEffects": {
+            "standardSymptoms": "सामान्य लक्षण",
+            "severeRedFlags": "गंभीर चेतावनी संकेत — तुरंत चिकित्सा सहायता लें"
+        },
+        "dosage": {
+            "tabs": {
+                "kids": "बच्चे",
+                "adults": "वयस्क",
+                "elderly": "वृद्ध"
+            },
+            "doseLabel": "खुराक:",
+            "frequencyLabel": "आवृत्ति:",
+            "notesHeading": "टिप्पणियाँ",
+            "warningsHeading": "चेतावनियाँ"
+        },
+        "dietary": {
+            "tabs": {
+                "dietaryIntake": "आहार"
+            },
+            "storageHeading": "भंडारण",
+            "pregnancyHeading": "गर्भावस्था"
+        },
+        "disclaimer": "यह जानकारी शैक्षिक उद्देश्य के लिए है और पेशेवर चिकित्सा सलाह का विकल्प नहीं है।"
     },
-    "sideEffects": {
-      "standardSymptoms": "सामान्य लक्षण",
-      "severeRedFlags": "गंभीर चेतावनी संकेत — तुरंत चिकित्सा सहायता लें"
+    "SchemeEligibility": {
+        "validationAgeError": "कृपया एक वैध आयु दर्ज करें।",
+        "validationStateError": "कृपया एक राज्य चुनें।"
     },
-    "dosage": {
-      "tabs": {
-        "kids": "बच्चे",
-        "adults": "वयस्क",
-        "elderly": "वृद्ध"
-      },
-      "doseLabel": "खुराक:",
-      "frequencyLabel": "आवृत्ति:",
-      "notesHeading": "टिप्पणियाँ",
-      "warningsHeading": "चेतावनियाँ"
+    "Health": {
+        "quickActions": "Quick actions",
+        "scanMedicine": "Scan Medicine",
+        "verifyAuthenticity": "Verify authenticity",
+        "checkSymptoms": "Check Symptoms",
+        "symptomGuidance": "AI-assisted guidance",
+        "findPharmacy": "Find Pharmacy",
+        "locateStores": "Locate verified stores",
+        "replyFallback": "I'm here to help! Could you rephrase that?",
+        "tooManyRequests": "Too many requests. Please try again in a few moments.",
+        "failedResponse": "Failed to generate AI response",
+        "genericError": "Something went wrong",
+        "returnHome": "Return to chat home",
+        "chatConversation": "Chat conversation",
+        "startVoice": "Start voice input",
+        "stopVoice": "Stop voice input",
+        "healthQuestion": "Type your health question",
+        "voiceBrowserRequired": "Voice input is not supported in this browser.",
+        "listening": "Listening... speak clearly",
+        "placeholder": "Type your health concern...",
+        "sendMessage": "Send message",
+        "footer": "For informational use only • Consult a doctor"
     },
-    "dietary": {
-      "tabs": {
-        "dietaryIntake": "आहार"
-      },
-      "storageHeading": "भंडारण",
-      "pregnancyHeading": "गर्भावस्था"
-    },
-    "disclaimer": "यह जानकारी शैक्षिक उद्देश्य के लिए है और पेशेवर चिकित्सा सलाह का विकल्प नहीं है।"
-  }
+    "schedule": {
+        "pageTitle": "दवा का शेड्यूल",
+        "pageSubtitle": "अपनी रोज़ाना की दवाओं को ट्रैक करें",
+        "heading": "मेरी दवाएं",
+        "headingDescription": "अपनी रोज़ाना की दवाओं के डोज़ को ट्रैक करें।",
+        "refreshAriaLabel": "रिफ्रेश करें",
+        "addMedicine": "दवा जोड़ें",
+        "authErrorTitle": "साइन इन आवश्यक है",
+        "authErrorDescription": "रिमाइंडर सेट करने के लिए कृपया साइन इन करें।",
+        "authErrorAction": "लॉगिन पर जाएं",
+        "networkErrorTitle": "कनेक्शन त्रुटि",
+        "networkErrorAction": "पुनः प्रयास करें",
+        "emptyTitle": "अभी तक कोई दवा ट्रैक नहीं की गई",
+        "emptyDescription": "अपनी पहली दवा जोड़ें ताकि आप डोज़ ट्रैक कर सकें और रिमाइंडर प्राप्त कर सकें।",
+        "emptyAction": "दवा जोड़ें",
+        "statusTaken": "ले ली गई",
+        "statusSkipped": "छोड़ दी गई",
+        "statusPending": "बाकी है",
+        "statusUpcoming": "आने वाली है",
+        "actionTaken": "ली गई",
+        "actionTake": "लें",
+        "actionSkip": "छोड़ें",
+        "doseErrorMessage": "सेव नहीं हो सका। कृपया पुनः प्रयास करें।"
+    }
 }

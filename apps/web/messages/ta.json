@@ -27,6 +27,9 @@
         "alerts_empty_title": "எல்லாம் சரியாக உள்ளது!",
         "alerts_empty_description": "தற்போது செயலில் உள்ள ஒழுங்குமுறை எச்சரிக்கைகள் இல்லை. பாதுகாப்பாக இருங்கள் மற்றும் உங்கள் மருந்துகளை சரிபார்க்கவும்.",
         "view_full_alert_log": "முழு எச்சரிக்கை பதிவைப் பார்க்கவும்",
+        "vaccine_title": "தடுப்பூசி மையம் & நோய்த்தடுப்பூசி கண்காணிப்பான்",
+        "vaccine_subtitle": "சிறந்த பொதுச் சுகாதார விழிப்புணர்விற்காக தடுப்பூசி அட்டவணைகள், பாதுகாப்பு தகவல்கள் மற்றும் தடுப்பூசிக்குப் பிந்தைய பராமரிப்பு வழிகாட்டுதல்களை அறிந்துகொள்ளுங்கள்.",
+        "vaccine_open": "தடுப்பூசி மையத்தைத் திறக்கவும்",
         "heroTitle": {
             "prefix": "உங்கள் ஆரோக்கியம், ",
             "highlight": "சரிபார்க்கப்பட்ட & பாதுகாக்கப்பட்ட."
@@ -452,7 +455,15 @@
         "importError": "தவறான காப்புப்பிரதி கோப்பு. சரியான JSON காப்புப்பிரதியைப் பதிவேற்றவும்.",
         "statusExpired": "காலாவதியானது",
         "statusExpiringSoon": "விரைவில் காலாவதியாகும் ({days} நாட்கள்)",
-        "statusSafe": "பாதுகாப்பானது"
+        "statusSafe": "பாதுகாப்பானது",
+        "exportCSV": "CSVஐ ஏற்றுமதி செய்",
+        "exportPDF": "PDFஐ ஏற்றுமதி செய்",
+        "print": "அச்சிடு",
+        "csvExportSuccess": "CSV வெற்றிகரமாக ஏற்றுமதி செய்யப்பட்டது",
+        "pdfExportSuccess": "PDF வெற்றிகரமாக ஏற்றுமதி செய்யப்பட்டது",
+        "noMedicinesToDisplay": "காண்பிக்க எந்த மருந்துகளும் இல்லை",
+        "generatedOn": "உருவாக்கப்பட்ட தேதி (கடைசியாக",
+        "deleteMedicine": "மருந்தை நீக்கு"
     },
     "Login": {
         "brandSubtitle": "மருந்து பாதுகாப்பு தளம்",
@@ -639,37 +650,64 @@
         "nav_reports": "My Reports",
         "nav_profile": "My Profile"
     },
-  "medicineSafety": {
-    "guideTitle": "பயன்பாடு மற்றும் பாதுகாப்பு வழிகாட்டி",
-    "noDosageInfo": "இந்த வயது குழுவிற்கான மருந்தளவு தகவல் கிடைக்கவில்லை.",
-    "closeButton": "பாதுகாப்பு தகவலை மூடு",
-    "tabs": {
-      "sideEffects": "பக்க விளைவுகள்",
-      "dosage": "மருந்தளவு",
-      "dietaryIntake": "உணவு உட்கொள்ளல்"
+    "medicineSafety": {
+        "guideTitle": "பயன்பாடு மற்றும் பாதுகாப்பு வழிகாட்டி",
+        "noDosageInfo": "இந்த வயது குழுவிற்கான மருந்தளவு தகவல் கிடைக்கவில்லை.",
+        "closeButton": "பாதுகாப்பு தகவலை மூடு",
+        "tabs": {
+            "sideEffects": "பக்க விளைவுகள்",
+            "dosage": "மருந்தளவு",
+            "dietaryIntake": "உணவு உட்கொள்ளல்"
+        },
+        "sideEffects": {
+            "standardSymptoms": "சாதாரண அறிகுறிகள்",
+            "severeRedFlags": "கடுமையான எச்சரிக்கைகள் — உடனடியாக மருத்துவ உதவி பெறவும்"
+        },
+        "dosage": {
+            "tabs": {
+                "kids": "குழந்தைகள்",
+                "adults": "பெரியவர்கள்",
+                "elderly": "முதியவர்கள்"
+            },
+            "doseLabel": "மருந்தளவு:",
+            "frequencyLabel": "அடிக்கடி:",
+            "notesHeading": "குறிப்புகள்",
+            "warningsHeading": "எச்சரிக்கைகள்"
+        },
+        "dietary": {
+            "tabs": {
+                "dietaryIntake": "உணவு உட்கொள்ளல்"
+            },
+            "storageHeading": "சேமிப்பு",
+            "pregnancyHeading": "கர்ப்பம்"
+        },
+        "disclaimer": "இந்த தகவல் கல்வி நோக்கத்திற்கானது; இது தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாகாது."
     },
-    "sideEffects": {
-      "standardSymptoms": "சாதாரண அறிகுறிகள்",
-      "severeRedFlags": "கடுமையான எச்சரிக்கைகள் — உடனடியாக மருத்துவ உதவி பெறவும்"
+    "SchemeEligibility": {
+        "validationAgeError": "சரியான வயதை உள்ளிடவும்.",
+        "validationStateError": "ஒரு மாநிலத்தைத் தேர்ந்தெடுக்கவும்."
     },
-    "dosage": {
-      "tabs": {
-        "kids": "குழந்தைகள்",
-        "adults": "பெரியவர்கள்",
-        "elderly": "முதியவர்கள்"
-      },
-      "doseLabel": "மருந்தளவு:",
-      "frequencyLabel": "அடிக்கடி:",
-      "notesHeading": "குறிப்புகள்",
-      "warningsHeading": "எச்சரிக்கைகள்"
-    },
-    "dietary": {
-      "tabs": {
-        "dietaryIntake": "உணவு உட்கொள்ளல்"
-      },
-      "storageHeading": "சேமிப்பு",
-      "pregnancyHeading": "கர்ப்பம்"
-    },
-    "disclaimer": "இந்த தகவல் கல்வி நோக்கத்திற்கானது; இது தொழில்முறை மருத்துவ ஆலோசனைக்கு மாற்றாகாது."
-  }
+    "Health": {
+        "quickActions": "Quick actions",
+        "scanMedicine": "Scan Medicine",
+        "verifyAuthenticity": "Verify authenticity",
+        "checkSymptoms": "Check Symptoms",
+        "symptomGuidance": "AI-assisted guidance",
+        "findPharmacy": "Find Pharmacy",
+        "locateStores": "Locate verified stores",
+        "replyFallback": "I'm here to help! Could you rephrase that?",
+        "tooManyRequests": "Too many requests. Please try again in a few moments.",
+        "failedResponse": "Failed to generate AI response",
+        "genericError": "Something went wrong",
+        "returnHome": "Return to chat home",
+        "chatConversation": "Chat conversation",
+        "startVoice": "Start voice input",
+        "stopVoice": "Stop voice input",
+        "healthQuestion": "Type your health question",
+        "voiceBrowserRequired": "Voice input is not supported in this browser.",
+        "listening": "Listening... speak clearly",
+        "placeholder": "Type your health concern...",
+        "sendMessage": "Send message",
+        "footer": "For informational use only • Consult a doctor"
+    }
 }
