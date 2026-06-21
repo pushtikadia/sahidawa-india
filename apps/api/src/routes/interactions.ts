@@ -276,6 +276,7 @@ router.get("/", async (req: Request, res: Response) => {
         const interactionByPair = indexInteractions(
             await loadInteractionsForGenerics(selectedGenerics)
         );
+        const isFallback = dbConfig?.isSupabaseOffline ?? true;
         const interactions = [];
 
         for (let i = 0; i < medicines.length; i++) {
@@ -306,6 +307,7 @@ router.get("/", async (req: Request, res: Response) => {
                         "Follow the prescribed dosage and consult a clinician if symptoms change.",
                     mechanism: match?.mechanism || "No interaction mechanism is documented.",
                     source: match?.source || "SahiDawa interaction checker",
+                    verified: !isFallback,
                 });
             }
         }
@@ -324,7 +326,6 @@ router.get("/", async (req: Request, res: Response) => {
 async function resolveToGeneric(input: string): Promise<{ input: string; generic: string }> {
     const cleanInput = input.trim();
     const lowerInput = cleanInput.toLowerCase();
-
     let dbFailed = dbConfig?.isSupabaseOffline;
     let genericName = cleanInput;
 
@@ -475,6 +476,7 @@ router.post("/check", async (req: Request, res: Response) => {
         await Promise.all(
             pairs.map(async ([a, b]) => {
                 let match = null;
+                let isFallback = false;
 
                 if (!dbFailed) {
                     try {
@@ -520,6 +522,7 @@ router.post("/check", async (req: Request, res: Response) => {
                     );
                     if (found) {
                         match = found;
+                        isFallback = true;
                     }
                 }
 
@@ -540,6 +543,7 @@ router.post("/check", async (req: Request, res: Response) => {
                             match.clinical_recommendation ||
                             "Consult a physician before combining.",
                         source: match.source || "Clinical Literature",
+                        verified: !isFallback,
                     });
                 }
             })
