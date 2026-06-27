@@ -27,7 +27,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import SafetyStatsBanner from "@/components/SafetyStatsBanner";
 import { getVisibleAlertBatchNumber } from "@/lib/alertFormatting";
-import { usePredictivePrefetch } from "../../hooks/usePredictivePrefetch";
+import { usePredictivePrefetch } from "@/src/hooks/usePredictivePrefetch";
 
 function formatRelativeTime(dateString: string | null): string {
     if (!dateString) return "Recent";
