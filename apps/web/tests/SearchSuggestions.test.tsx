@@ -1,4 +1,4 @@
-import { renderToStaticMarkup } from "react-dom/server";
+import { render, screen } from "@testing-library/react";
 import React from "react";
 import SearchSuggestions, { HistoryItem } from "../components/SearchSuggestions";
 
@@ -14,37 +14,35 @@ describe("SearchSuggestions", () => {
     };
 
     it("renders suggestions correctly when visible", () => {
-        const markup = renderToStaticMarkup(<SearchSuggestions {...defaultProps} />);
-        expect(markup).toContain("Crocin");
-        expect(markup).toContain("Dolo 650");
+        render(<SearchSuggestions {...defaultProps} />);
+        expect(screen.getByText("Crocin")).toBeInTheDocument();
+        expect(screen.getByText("Dolo 650")).toBeInTheDocument();
     });
 
     it("renders nothing when not visible", () => {
-        const markup = renderToStaticMarkup(
+        const { container } = render(
             <SearchSuggestions {...defaultProps} visible={false} />
         );
-        expect(markup).toBe("");
+        expect(container.firstChild).toBeNull();
     });
 
     it("renders loading state correctly", () => {
-        const markup = renderToStaticMarkup(
-            <SearchSuggestions {...defaultProps} isLoading={true} />
-        );
-        expect(markup).toContain("Searching medicines...");
+        render(<SearchSuggestions {...defaultProps} isLoading={true} />);
+        expect(screen.getByText("Searching medicines...")).toBeInTheDocument();
     });
 
     it("renders error state correctly", () => {
-        const markup = renderToStaticMarkup(
+        render(
             <SearchSuggestions {...defaultProps} error="Failed to fetch data" />
         );
-        expect(markup).toContain("Failed to fetch data");
+        expect(screen.getByText("Failed to fetch data")).toBeInTheDocument();
     });
 
     it("renders no results message correctly", () => {
-        const markup = renderToStaticMarkup(
+        render(
             <SearchSuggestions {...defaultProps} noResults={true} />
         );
-        expect(markup).toContain("No medicines found");
+        expect(screen.getByText(/No medicines found/)).toBeInTheDocument();
     });
 
     it("renders history items when in history mode", () => {
@@ -53,7 +51,7 @@ describe("SearchSuggestions", () => {
             { query: "Aspirin", pinned: false, timestamp: Date.now() - 1000 },
         ];
 
-        const markup = renderToStaticMarkup(
+        render(
             <SearchSuggestions
                 {...defaultProps}
                 isHistory={true}
@@ -62,9 +60,9 @@ describe("SearchSuggestions", () => {
             />
         );
 
-        expect(markup).toContain("Recent Searches");
-        expect(markup).toContain("Clear All");
-        expect(markup).toContain("Calpol");
-        expect(markup).toContain("Aspirin");
+        expect(screen.getByText("Recent Searches")).toBeInTheDocument();
+        expect(screen.getByText("Clear All")).toBeInTheDocument();
+        expect(screen.getByText("Calpol")).toBeInTheDocument();
+        expect(screen.getByText("Aspirin")).toBeInTheDocument();
     });
 });
