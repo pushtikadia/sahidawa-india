@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { redis } from "@/lib/redis";
 import { rateLimit } from "@/lib/rateLimit";
+import { z } from "zod";
 
 const CACHE_TTL = 24 * 60 * 60;
 const MAX_QUERY_LENGTH = 100;
+
+const searchQueryParamsSchema = z.object({
+  query: z.string()
+    .min(1, { message: "Search query cannot be empty" })
+    .max(MAX_QUERY_LENGTH, { message: `Search query exceeds maximum limit of ${MAX_QUERY_LENGTH} characters` })
+}); 
 
 function escapePostgrest(val: string) {
     // Escape backslash first (must be first to avoid double-escaping),
@@ -43,9 +50,25 @@ export async function GET(request: NextRequest) {
                 }
             );
         }
+        // 1. Extract raw query safely
+    const { searchParams } = new URL(request.url);
+    const rawQuery = searchParams.get("query") || searchParams.get("q") || "";
 
-        const { searchParams } = new URL(request.url);
-        const query = searchParams.get("q")?.trim() ?? "";
+    // 2. Validate using Zod schema
+    const validation = searchQueryParamsSchema.safeParse({ query: rawQuery.trim() });
+
+    if (!validation.success) {
+      return NextResponse.json(
+        { 
+          error: "Validation Failed", 
+          details: validation.error.errors[0].message 
+        }, 
+        { status: 400 }
+      );
+    }
+
+    // 3. Use the safe validated query for the database search below
+    const query = validation.data.query;
 
         // Whitespace-only or too-short queries short-circuit without hitting DB
         if (query.length < 2) {
