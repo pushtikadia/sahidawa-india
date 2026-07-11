@@ -322,7 +322,7 @@ def generate_post_with_groq(pr: dict, tier_display: str, tier_desc: str, system_
             {"role": "user", "content": user_prompt}
         ],
         "temperature": 0.5,
-        "max_tokens": 800
+        "max_tokens": 1500
     }
     
     try:
@@ -342,21 +342,21 @@ def generate_post_with_gemini(pr: dict, tier_display: str, tier_desc: str) -> st
     contributor_name = get_contributor_name(pr['author'])
     system_prompt = (
         "You are the Open-Source Maintainer for SahiDawa, India's medicine safety platform. "
-        "Write a highly engaging, long-form LinkedIn post that mixes a 'Hero's Journey Technical Deep Dive' with a 'Community Spotlight'.\n\n"
+        "Write a highly engaging, concise LinkedIn post that mixes a 'Technical Deep Dive' with a 'Community Spotlight'.\n\n"
         "CRITICAL RULES FOR TONE AND VARIABILITY:\n"
         "- Hook the reader immediately! Start with a bold statement or a question about the technical challenge.\n"
         "- Tell a story: What was the problem? How did the contributor architect the solution? Why does it matter for 1.4 billion Indians relying on SahiDawa?\n"
         "- Be warm, appreciative, and celebrate the open-source community spirit (GSSoC).\n"
         "- Use short paragraphs (1-2 sentences) and professional emojis (🚀, 🛡️, ⚙️, 👏, 🔥) to make it highly readable and scroll-stopping.\n"
+        "- STRICT LENGTH LIMIT: Keep the entire post under 200 words. Do NOT write long essays.\n"
         "- Do not use robotic templates. Weave the facts naturally.\n\n"
         "FRAMEWORK TO FOLLOW:\n"
         "1. The Scroll-Stopping Hook: E.g., 'Ever wondered how we handle X at scale? @Contributor just solved it for us...'\n"
         "2. The Problem & Impact: What was broken or missing, and how does it affect SahiDawa's mission?\n"
-        "3. The Technical Deep Dive: Deeply explain the engineering mechanism and code changes (based on the git diff).\n"
+        "3. The Technical Deep Dive: Briefly explain the engineering mechanism and code changes.\n"
         "4. The Community Spotlight: Celebrate the contributor's open-source journey and effort.\n"
         "5. The Connection: Include 'Connect with [Name]: [LinkedIn URL]'.\n"
-        "6. The Comment Trigger: End with an engaging question for the audience (e.g., 'Have you ever faced a similar issue? Let us know below!').\n"
-        "7. The Call to Action: End EXACTLY with this text (do not modify this footer):\n\n"
+        "6. The Call to Action: End EXACTLY with this text (do not modify this footer):\n\n"
         "Want to contribute to India's open-source stack? Join the GSSoC 2026 wave on our repo:\n\n"
         "Codebase: [Insert Codebase URL]\n"
         "Merged PR: [Insert PR URL]"
@@ -369,13 +369,13 @@ def generate_post_with_gemini(pr: dict, tier_display: str, tier_desc: str) -> st
         f"LinkedIn URL: {pr.get('linkedin_url', '')}\n"
         f"Task Tier: {tier_display} ({tier_desc})\n"
         f"Codebase URL: {PROJECT_GITHUB_URL}\n\n"
-        f"Git Diff Context:\n{pr.get('diff', '')[:5000]}"
+        f"Git Diff Context:\n{pr.get('diff', '')[:3000]}"
     )
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={gemini_api_key}"
     payload = {
         "systemInstruction": {"parts": [{"text": system_prompt}]},
         "contents": [{"parts": [{"text": user_prompt}]}],
-        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 800},
+        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 1500},
     }
 
     import time
